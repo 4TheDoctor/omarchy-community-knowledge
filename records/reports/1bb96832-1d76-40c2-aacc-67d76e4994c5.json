@@ -1,0 +1,120 @@
+{
+  "created_at": "2026-11-25T10:30:00Z",
+  "id": "1bb96832-1d76-40c2-aacc-67d76e4994c5",
+  "payload": {
+    "activation": {
+      "details": "Plugin enabled and both gesture entries loaded; 'hyprctl configerrors' was empty.",
+      "state": "active"
+    },
+    "actual_result": "The overlay layer appeared on open and went away on close. The screenshot showed two workspace tiles side by side on a rotated external monitor, with real captured contents for every window, including windows on a workspace that was not visible. The shell log had no QML errors from the plugin. The user reported that the trackpad gesture works.",
+    "adverse_effects": "None observed. The theme's menu scrim colour was too transparent as a backdrop and let the windows behind show through the labels, so the backdrop was changed to the menu background colour at 95 percent opacity.",
+    "baseline": "not-tested",
+    "case_id": "dc8d5e53-5b11-4012-95c4-b242bc31b55f",
+    "change_id": "d0d79825-bc59-441b-92d8-6195580e9ac8",
+    "environment": {
+      "architecture": "x86_64",
+      "channel": "stable",
+      "components": [
+        {
+          "alias": "host",
+          "selector": {
+            "kind": "hardware",
+            "model": "MacBookPro9,2",
+            "role": "host",
+            "vendor": "Apple"
+          }
+        },
+        {
+          "alias": "trackpad",
+          "selector": {
+            "kind": "hardware",
+            "product": "internal multi-touch trackpad",
+            "role": "other",
+            "vendor": "Apple"
+          }
+        },
+        {
+          "alias": "omarchy",
+          "selector": {
+            "component": "omarchy",
+            "kind": "software"
+          },
+          "version": "4.5.0-3",
+          "version_scheme": "arch"
+        },
+        {
+          "alias": "hyprland",
+          "selector": {
+            "component": "compositor",
+            "kind": "software"
+          },
+          "version": "0.56.2",
+          "version_scheme": "semver"
+        },
+        {
+          "alias": "quickshell",
+          "selector": {
+            "component": "package",
+            "kind": "software",
+            "name": "quickshell"
+          },
+          "version": "0.3.2.r7.g2b4501a-1",
+          "version_scheme": "arch"
+        }
+      ],
+      "origin": "firsthand",
+      "runtime_mode": "native",
+      "topology": {
+        "edges": [
+          {
+            "detail": "exact",
+            "from": "trackpad",
+            "relation": "connected_to",
+            "to": "host"
+          },
+          {
+            "detail": "exact",
+            "from": "trackpad",
+            "relation": "delivers_input_to",
+            "to": "hyprland"
+          },
+          {
+            "detail": "exact",
+            "from": "hyprland",
+            "relation": "runs_on",
+            "to": "host"
+          },
+          {
+            "detail": "exact",
+            "from": "quickshell",
+            "relation": "runs_on",
+            "to": "host"
+          }
+        ],
+        "nodes": [
+          "host",
+          "trackpad",
+          "omarchy",
+          "hyprland",
+          "quickshell"
+        ]
+      }
+    },
+    "expected_result": "An overlay with one tile per non-empty workspace and a picture of each window, opened by three fingers up, with a click taking the user to that window.",
+    "limitations": "One machine and one session. The user's report did not say separately whether clicking a window, the arrow keys, Enter or Escape were tried, so those are unconfirmed. Tile shape is taken from the first workspace's monitor, so monitors of different shapes may look wrong. Once, the first open command sent right after a shell restart returned success but showed nothing; the next one worked, and the cause was not investigated. Processor cost while opening was not measured.",
+    "observation_date": "2026-11-25",
+    "provenance": "Firsthand: built and tested on the reporting user's machine by an AI coding agent, which ran the command and screenshot checks; the trackpad result is the user's own report.",
+    "repetitions": 3,
+    "result": "success",
+    "root_cause": {
+      "assessment": "unknown",
+      "rationale": "Not applicable: this records a working optional addition, not a defect that was diagnosed."
+    },
+    "test_method": "The open and close commands were run from a terminal while listing the compositor's layer surfaces, a full-screen screenshot was taken with the overview open and inspected, and the shell log was read. The user then tried the three-finger swipe on the physical trackpad after being asked to swipe up and click a window."
+  },
+  "provenance": {
+    "kind": "firsthand"
+  },
+  "schema_version": 1,
+  "type": "report"
+}
