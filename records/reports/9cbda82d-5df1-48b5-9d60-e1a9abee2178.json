@@ -1,0 +1,103 @@
+{
+  "created_at": "2026-11-25T11:30:00Z",
+  "id": "9cbda82d-5df1-48b5-9d60-e1a9abee2178",
+  "payload": {
+    "activation": {
+      "details": "All entries loaded; 'hyprctl configerrors' was empty.",
+      "state": "active"
+    },
+    "actual_result": "The user reported having tried everything and that it works: natural scrolling, the three-finger sideways swipe between workspaces, and the four-finger pinch that opens the app grid.",
+    "adverse_effects": "None observed.",
+    "baseline": "not-tested",
+    "case_id": "dc8d5e53-5b11-4012-95c4-b242bc31b55f",
+    "change_id": "09d3f7e0-56e7-49ce-9891-8e0e5d417365",
+    "environment": {
+      "architecture": "x86_64",
+      "channel": "stable",
+      "components": [
+        {
+          "alias": "host",
+          "selector": {
+            "kind": "hardware",
+            "model": "MacBookPro9,2",
+            "role": "host",
+            "vendor": "Apple"
+          }
+        },
+        {
+          "alias": "trackpad",
+          "selector": {
+            "kind": "hardware",
+            "product": "internal multi-touch trackpad (bcm5974 kernel driver)",
+            "role": "other",
+            "vendor": "Apple"
+          }
+        },
+        {
+          "alias": "omarchy",
+          "selector": {
+            "component": "omarchy",
+            "kind": "software"
+          },
+          "version": "4.5.0-3",
+          "version_scheme": "arch"
+        },
+        {
+          "alias": "hyprland",
+          "selector": {
+            "component": "compositor",
+            "kind": "software"
+          },
+          "version": "0.56.2",
+          "version_scheme": "semver"
+        }
+      ],
+      "origin": "firsthand",
+      "runtime_mode": "native",
+      "topology": {
+        "edges": [
+          {
+            "detail": "exact",
+            "from": "trackpad",
+            "relation": "connected_to",
+            "to": "host"
+          },
+          {
+            "detail": "exact",
+            "from": "trackpad",
+            "relation": "delivers_input_to",
+            "to": "hyprland"
+          },
+          {
+            "detail": "exact",
+            "from": "hyprland",
+            "relation": "runs_on",
+            "to": "host"
+          }
+        ],
+        "nodes": [
+          "host",
+          "trackpad",
+          "omarchy",
+          "hyprland"
+        ]
+      }
+    },
+    "expected_result": "Natural scrolling, a three-finger sideways swipe between workspaces, and a four-finger inward pinch that opens the app grid.",
+    "limitations": "One machine and one session. The report was given in general terms, not gesture by gesture, and no measurements were taken. The pinch is still bound in both directions, so an inward-only pinch as on macOS was not achieved. Whether a single pinch can be reported more than once was not separately checked; the user did not mention the grid opening and closing in one motion.",
+    "observation_date": "2026-11-25",
+    "provenance": "Firsthand: the user's own report after trying the gestures, recorded by an AI coding agent.",
+    "repetitions": 1,
+    "result": "success",
+    "root_cause": {
+      "assessment": "unknown",
+      "rationale": "Why Hyprland reports most inward four-finger pinches on this trackpad as 'pinchout' was not investigated."
+    },
+    "test_method": "Follow-up to the earlier partial report for the same change, on the same machine and configuration. The user tried the gestures on the physical trackpad after the final edit and reported the outcome in conversation."
+  },
+  "provenance": {
+    "kind": "firsthand"
+  },
+  "schema_version": 1,
+  "type": "report"
+}
