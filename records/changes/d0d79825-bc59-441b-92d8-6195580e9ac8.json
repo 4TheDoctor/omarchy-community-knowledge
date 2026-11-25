@@ -1,0 +1,90 @@
+{
+  "created_at": "2026-11-25T10:30:00Z",
+  "id": "d0d79825-bc59-441b-92d8-6195580e9ac8",
+  "payload": {
+    "activation": {
+      "details": "Edits to an already loaded service plugin took effect only after 'omarchy restart shell'. The gesture entries apply on 'hyprctl reload'.",
+      "required": "service-restart"
+    },
+    "affected_files": [
+      "{home}/.config/omarchy/plugins/",
+      "{home}/.config/hypr/input.lua"
+    ],
+    "applicability": {
+      "requires": [
+        {
+          "kind": "component",
+          "presence": true,
+          "selector": {
+            "component": "shell",
+            "kind": "software"
+          }
+        },
+        {
+          "kind": "component",
+          "presence": true,
+          "selector": {
+            "kind": "hardware",
+            "product": "multi-touch trackpad",
+            "role": "other"
+          }
+        }
+      ],
+      "uncertain_conditions": [
+        {
+          "constraints": [
+            {
+              "op": "!=",
+              "version": "0.56.2"
+            }
+          ],
+          "kind": "software",
+          "scheme": "semver",
+          "selector": {
+            "component": "compositor",
+            "kind": "software"
+          }
+        },
+        {
+          "constraints": [
+            {
+              "op": "!=",
+              "version": "0.3.2"
+            }
+          ],
+          "kind": "software",
+          "scheme": "upstream",
+          "selector": {
+            "component": "package",
+            "kind": "software",
+            "name": "quickshell"
+          }
+        }
+      ]
+    },
+    "case_id": "dc8d5e53-5b11-4012-95c4-b242bc31b55f",
+    "effects": "Three fingers up opens the overview and three fingers down closes it. Clicking a window focuses it and switches workspace. Window contents are captured once each time the overview opens. Nothing runs while it is closed.",
+    "explanation": "A service-type Omarchy shell plugin opens a full-screen layer-shell overlay. It lists the non-empty Hyprland workspaces as labelled tiles and draws each window inside its tile at its relative position and size. Each window is a Quickshell.Wayland ScreencopyView whose capture source is the window's Wayland toplevel handle (the wayland property of an entry in Quickshell.Hyprland's toplevels). The view is left live only until its first frame arrives and is then stopped, so nothing is captured while the overview is closed or after it has opened; calling captureFrame() immediately after creating the view failed with 'no recording context is ready'. An IpcHandler exposes open, close and toggle, and Hyprland gestures call them. The plugin is not published; this record describes the approach, not a downloadable artifact.",
+    "intent": "optional",
+    "method": "plugin",
+    "procedure": {
+      "kind": "instructions",
+      "steps": [
+        "Create a user plugin folder under ~/.config/omarchy/plugins/ with a manifest of type service and one QML file, using the built-in dock plugin's app grid as the pattern for a full-screen overlay toggled over IPC. Check it with 'omarchy plugin validate' and turn it on with 'omarchy plugin enable'.",
+        "In the QML, build the workspace tiles from Quickshell.Hyprland, and show each window with a ScreencopyView from Quickshell.Wayland whose captureSource is that window's Wayland toplevel. Keep the view live until the first frame arrives, then stop it. Fall back to the app icon and title when no frame arrives. Render window titles as plain text.",
+        "Expose open, close and toggle through an IpcHandler whose target is the plugin id, so that 'omarchy-shell <plugin-id> open' works from a terminal.",
+        "In ~/.config/hypr/input.lua add two hl.gesture entries with fingers = 3: direction 'up' running the open command and direction 'down' running the close command through hl.exec_cmd. Then run 'hyprctl reload' and confirm 'hyprctl configerrors' is empty.",
+        "On a rotated monitor, swap the monitor's width and height before working out the tile shape."
+      ]
+    },
+    "requires_root": "no",
+    "risk": "low",
+    "rollback": "Run 'omarchy plugin disable' for the plugin and delete its folder, remove the two three-finger gesture entries from ~/.config/hypr/input.lua, then run 'hyprctl reload'.",
+    "validation_plan": "Run the open command from a terminal and check that an overlay layer appears with one tile per non-empty workspace and a picture of each window; run close and check that it is gone; then swipe three fingers up and click a window. Check the shell log for QML errors."
+  },
+  "provenance": {
+    "kind": "firsthand"
+  },
+  "schema_version": 1,
+  "type": "change"
+}

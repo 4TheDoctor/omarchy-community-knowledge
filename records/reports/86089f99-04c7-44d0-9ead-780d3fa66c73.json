@@ -1,0 +1,103 @@
+{
+  "created_at": "2026-11-25T10:30:00Z",
+  "id": "86089f99-04c7-44d0-9ead-780d3fa66c73",
+  "payload": {
+    "activation": {
+      "details": "All entries loaded; 'hyprctl configerrors' was empty.",
+      "state": "active"
+    },
+    "actual_result": "Hyprland reloaded with no configuration errors and reported natural scrolling as on. With direction 'pinch' the gesture fired four times in four seconds; with direction 'pinchin' alone the user reported that nothing happened; with both directions logged, six pinches in about twenty seconds were recorded as five 'pinchout' and one 'pinchin'. The pinch was then bound in both directions. Before that test, the trackpad and the input library had been checked and do report four-finger contact.",
+    "adverse_effects": "None observed.",
+    "baseline": "reproduced",
+    "case_id": "dc8d5e53-5b11-4012-95c4-b242bc31b55f",
+    "change_id": "09d3f7e0-56e7-49ce-9891-8e0e5d417365",
+    "environment": {
+      "architecture": "x86_64",
+      "channel": "stable",
+      "components": [
+        {
+          "alias": "host",
+          "selector": {
+            "kind": "hardware",
+            "model": "MacBookPro9,2",
+            "role": "host",
+            "vendor": "Apple"
+          }
+        },
+        {
+          "alias": "trackpad",
+          "selector": {
+            "kind": "hardware",
+            "product": "internal multi-touch trackpad (bcm5974 kernel driver)",
+            "role": "other",
+            "vendor": "Apple"
+          }
+        },
+        {
+          "alias": "omarchy",
+          "selector": {
+            "component": "omarchy",
+            "kind": "software"
+          },
+          "version": "4.5.0-3",
+          "version_scheme": "arch"
+        },
+        {
+          "alias": "hyprland",
+          "selector": {
+            "component": "compositor",
+            "kind": "software"
+          },
+          "version": "0.56.2",
+          "version_scheme": "semver"
+        }
+      ],
+      "origin": "firsthand",
+      "runtime_mode": "native",
+      "topology": {
+        "edges": [
+          {
+            "detail": "exact",
+            "from": "trackpad",
+            "relation": "connected_to",
+            "to": "host"
+          },
+          {
+            "detail": "exact",
+            "from": "trackpad",
+            "relation": "delivers_input_to",
+            "to": "hyprland"
+          },
+          {
+            "detail": "exact",
+            "from": "hyprland",
+            "relation": "runs_on",
+            "to": "host"
+          }
+        ],
+        "nodes": [
+          "host",
+          "trackpad",
+          "omarchy",
+          "hyprland"
+        ]
+      }
+    },
+    "expected_result": "Natural scrolling, a three-finger sideways swipe between workspaces, and a four-finger inward pinch that opens the app grid.",
+    "limitations": "One machine and one session. The user did not explicitly confirm the scrolling direction, the workspace swipe or the final app grid pinch after the last edit; they went on to other requests without reporting a problem. It is not known whether three 'pinchout' entries logged in three consecutive seconds were three gestures or one gesture reported repeatedly; if repeated, a toggle could open and close the grid in one motion. An inward-only pinch, as on macOS, was not achieved.",
+    "observation_date": "2026-11-25",
+    "provenance": "Firsthand: applied and checked on the reporting user's machine by an AI coding agent; the pinches were made by the user and read from the log.",
+    "repetitions": 6,
+    "result": "partial",
+    "root_cause": {
+      "assessment": "unknown",
+      "rationale": "Why Hyprland reports most inward four-finger pinches on this trackpad as 'pinchout' was not investigated."
+    },
+    "test_method": "After each edit Hyprland was reloaded and its configuration errors were read. The natural scroll option was read back from the running compositor. For the pinch, each direction was temporarily bound to a command that appended its direction and the time to a log file, the user pinched on the physical trackpad, and the log was read."
+  },
+  "provenance": {
+    "kind": "firsthand"
+  },
+  "schema_version": 1,
+  "type": "report"
+}

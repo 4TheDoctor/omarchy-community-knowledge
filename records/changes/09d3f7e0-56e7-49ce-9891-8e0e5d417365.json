@@ -1,0 +1,66 @@
+{
+  "created_at": "2026-11-25T10:30:00Z",
+  "id": "09d3f7e0-56e7-49ce-9891-8e0e5d417365",
+  "payload": {
+    "activation": {
+      "details": "Applies on 'hyprctl reload'; no sign-out or reboot was needed.",
+      "required": "manual"
+    },
+    "affected_files": [
+      "{home}/.config/hypr/input.lua"
+    ],
+    "applicability": {
+      "requires": [
+        {
+          "kind": "component",
+          "presence": true,
+          "selector": {
+            "kind": "hardware",
+            "product": "multi-touch trackpad",
+            "role": "other"
+          }
+        }
+      ],
+      "uncertain_conditions": [
+        {
+          "constraints": [
+            {
+              "op": "!=",
+              "version": "0.56.2"
+            }
+          ],
+          "kind": "software",
+          "scheme": "semver",
+          "selector": {
+            "component": "compositor",
+            "kind": "software"
+          }
+        }
+      ]
+    },
+    "case_id": "dc8d5e53-5b11-4012-95c4-b242bc31b55f",
+    "effects": "Two-finger scrolling moves content with the fingers. Three fingers sideways switches workspace. Any four-finger pinch, inward or outward, opens the app grid if it is closed and closes it if it is open.",
+    "explanation": "Three additions to the user's Hyprland input file. Natural scrolling is a touchpad input setting. The workspace swipe is Hyprland's built-in 'workspace' gesture action; swiping past the last workspace opens a new empty one. The pinch runs the command that toggles the Omarchy dock's app grid, the same grid the dock's own keyboard shortcut opens. The pinch is bound in both directions on purpose: with direction 'pinchin' alone it never fired on the tested trackpad, and a logging test showed that Hyprland reported five of six four-finger pinches as 'pinchout' and one as 'pinchin'.",
+    "intent": "optional",
+    "method": "configuration",
+    "procedure": {
+      "kind": "instructions",
+      "steps": [
+        "Back up ~/.config/hypr/input.lua.",
+        "For natural scrolling add: hl.config({ input = { touchpad = { natural_scroll = true } } })",
+        "For the workspace swipe add: hl.gesture({ fingers = 3, direction = \"horizontal\", action = \"workspace\" })",
+        "For the app grid add two entries, one with direction = \"pinchin\" and one with direction = \"pinchout\", each as: hl.gesture({ fingers = 4, direction = \"pinchin\", action = function() hl.exec_cmd(\"omarchy-shell omarchy.dock apps\") end })",
+        "Run 'hyprctl reload' and confirm that 'hyprctl configerrors' prints nothing."
+      ]
+    },
+    "requires_root": "no",
+    "risk": "low",
+    "rollback": "Remove the added lines from ~/.config/hypr/input.lua, or restore the backup, then run 'hyprctl reload'.",
+    "validation_plan": "Check that 'hyprctl getoption input:touchpad:natural_scroll' reports true, then scroll, swipe three fingers sideways and pinch with four fingers. To see which pinch direction the trackpad reports, temporarily make each pinch entry append its direction to a log file."
+  },
+  "provenance": {
+    "kind": "firsthand"
+  },
+  "schema_version": 1,
+  "type": "change"
+}

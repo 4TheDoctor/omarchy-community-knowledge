@@ -1,0 +1,25 @@
+{
+  "created_at": "2026-11-25T10:30:00Z",
+  "id": "dc8d5e53-5b11-4012-95c4-b242bc31b55f",
+  "payload": {
+    "domains": [
+      "gestures",
+      "touchpad",
+      "workspaces",
+      "shell-plugin",
+      "input"
+    ],
+    "expectation": {
+      "basis": "user-requested",
+      "text": "The trackpad should behave as it does on macOS: content follows the fingers when scrolling, three fingers sideways moves between workspaces, three fingers up shows every workspace with its windows (as Mission Control does) and lets the user click a window to go to it, and a four-finger pinch opens the app grid (as Launchpad does). It should keep working across Hyprland updates."
+    },
+    "intent": "optional",
+    "observed": "On Omarchy 4.5 with Hyprland 0.56.2 none of this is on by default: scrolling is not natural, no gestures are bound, and there is no window overview. Scrolling, the workspace swipe and the app grid pinch need only a few lines in the user's Hyprland input file, the last one by calling the dock's built-in app grid. The overview needs more: the hyprexpo compositor plugin was removed from the official hyprland-plugins repository on 2026-05-12 (commit 3aa21f2, 'all: drop unmaintained plugins') and is absent from the revision that repository pins for Hyprland 0.56.2, so a user-owned Omarchy shell plugin built on Quickshell provides it instead, without compiling anything against Hyprland. This is a personal preference, not behaviour Omarchy promised.",
+    "title": "Mac-style trackpad gestures for Omarchy: natural scroll, workspace swipe, window overview and app grid pinch"
+  },
+  "provenance": {
+    "kind": "firsthand"
+  },
+  "schema_version": 1,
+  "type": "case"
+}
